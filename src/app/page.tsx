@@ -6,14 +6,17 @@ export default function HomePage() {
   const [quotes, setQuotes] = useState<string[]>([""]);
   const [author, setAuthor] = useState<string>("");
   const [fade, setFade] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function fetchQuote() {
     setFade(false);
+    setLoading(true);
     const res = await fetch('/api');
     const data = await res.json();
     setQuotes(data.message.map((quote: { q: string; a: string }) => quote.q));
     setAuthor(data.message[0].a);
     setTimeout(() => setFade(true), 50);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -28,7 +31,11 @@ export default function HomePage() {
       </h1>
 
       {/* Quote Card */}
-      <QuoteCard quotes={quotes}  fade={fade} />
+      {loading ? (
+        <p className="text-gray-400 text-lg animate-pulse">Fetching quote...</p>
+      ) : (
+        <QuoteCard quotes={quotes} fade={fade} />
+      )}
 
       {/* Button */}
       <button
