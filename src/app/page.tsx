@@ -32,7 +32,11 @@ export default function HomePage() {
 
       {/* Quote Card */}
       {loading ? (
-        <p className="text-gray-400 text-lg animate-pulse">Fetching quote...</p>
+        <div className="flex items-center space-x-2">
+          <div className="w-6 h-6 border-4 border-t-transparent border-pink-400 rounded-full animate-spin"></div>
+          <p className="text-gray-400">Fetching quote...</p>
+        </div>
+
       ) : (
         <QuoteCard quotes={quotes} fade={fade} />
       )}
